@@ -17,18 +17,6 @@ import static core.conditions.ElementConditions.visible;
 
 public abstract class AbstractLazyElement implements LazyElement {
 
-    class Wrapper{
-
-        public void checkMethod(ElementCondition condition) {
-        try {
-            WebElement element = getWrappedEntity();
-            element.clear();
-        } catch (WebDriverException e) {
-            WaitFor.until(this, condition);
-            getWrappedEntity().clear();
-        }
-    }}
-
     public WebElement getWrappedEntity() {
         WebElement result = fetchWrappedEntity();
         if (result == null) {
@@ -36,7 +24,7 @@ public abstract class AbstractLazyElement implements LazyElement {
         }
         return result;
     }
-    
+
     public abstract WebElement fetchWrappedEntity();
 
     public LazyElement find(By innerLocator) {
@@ -56,8 +44,8 @@ public abstract class AbstractLazyElement implements LazyElement {
     }
 
     public void clear() {
-        this.checkMethod(visible());
-        //WaitFor.until(this, visible()).clear();
+        //this.checkMethod(visible());
+        WaitFor.until(this, visible()).clear();
     }
 
     public void click() {
